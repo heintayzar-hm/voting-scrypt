@@ -36,10 +36,21 @@ import { Voting } from "@/contracts/voting";
 // `npm run deploycontract` to get deployment transaction id
 const contract_id = {
   /** The deployment transaction id */
-  txId: "5f88721569a223b0d08795328fe45a60723d6a4e5522df743998634b68b9b617",
+  txId: "664b63988aca7c9c41d857a7efb450a0f9e3c40b48722e76bd9452c29d48b42d",
   /** The output index */
   outputIndex: 0,
 };
+import artifact from '../../artifacts/voting.json';
+import { appConfig } from '@/config/index';
+Voting.loadArtifact(artifact);
+
+
+Scrypt.init({
+  // https://docs.scrypt.io/advanced/how-to-integrate-scrypt-service#get-your-api-key
+  apiKey: appConfig.scryptApiKey,
+  network: bsv.Networks.testnet
+})
+
 
 function byteString2utf8(b: ByteString) {
   return Buffer.from(b, "hex").toString("utf8");
@@ -305,7 +316,7 @@ function App() {
                     }}
                     component="img"
                     alt={"iphone"}
-                    src={`${process.env.PUBLIC_URL}/${"iphone"}.png`}
+                    src={`/${"iphone"}.png`}
                   />
                 </Box>
               </TableCell>
@@ -317,7 +328,7 @@ function App() {
                     }}
                     component="img"
                     alt={"android"}
-                    src={`${process.env.PUBLIC_URL}/${"android"}.png`}
+                    src={`/${"android"}.png`}
                   />
                 </Box>
               </TableCell>
@@ -358,7 +369,7 @@ function App() {
         </Table>
 
         <Box marginTop={6}>
-          {address !== null ? (
+          {address ? (
             <Account
               onLogout={handleLogout}
               address={address}
@@ -369,7 +380,6 @@ function App() {
           )}
         </Box>
       </TableContainer>
-      <Footer />
       <Snackbar
         open={error !== ""}
         autoHideDuration={6000}
