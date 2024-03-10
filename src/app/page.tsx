@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { use, useEffect, useRef, useState } from "react";
 import "./App.css";
 import {
   TableContainer,
@@ -209,6 +209,9 @@ function App() {
       return;
     }
 
+    // auto connect
+
+
     const signer = signerRef.current;
 
     const { isAuthenticated, error } = await signer.requestAuth();
@@ -231,6 +234,7 @@ function App() {
 
     setBalance(balanceRes.confirmed);
   };
+
 
   const handleLogout = () => {
     signerRef.current = undefined;
