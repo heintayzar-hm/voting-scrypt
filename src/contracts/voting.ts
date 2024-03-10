@@ -20,13 +20,13 @@ export class Voting extends SmartContract {
         // initialize fixed array
         this.candidates = fill({
             name: toByteString(''),
-            votesReceived: 0n,
+            votesReceived: BigInt(0),
         }, N)
         // set names and set votes they received to 0
         for (let i = 0; i < N; i++) {
             this.candidates[i] = {
                 name: names[i],
-                votesReceived: 0n,
+                votesReceived: BigInt(0),
             }
         }
     }
@@ -40,7 +40,7 @@ export class Voting extends SmartContract {
         this.increaseVotesReceived(name)
         // output containing the latest state and the same balance
         let outputs: ByteString = this.buildStateOutput(this.ctx.utxo.value)
-        if (this.changeAmount > 0n) {
+        if (this.changeAmount > BigInt(0)) {
             outputs += this.buildChangeOutput()
         }
         assert(this.ctx.hashOutputs === hash256(outputs), 'hashOutputs mismatch')

@@ -7,6 +7,13 @@
     "noEmit": true,
     "experimentalDecorators": true,
     "target": "ESNext",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "plugins": [
+      {
+        "transform": "/home/hein-tay-zar/.config/nvm/versions/node/v21.7.1/lib/node_modules/scrypt-cli/node_modules/scrypt-ts-transpiler/dist/index.js",
+        "transformProgram": true,
+        "outDir": "artifacts"
+      }
+    ]
   }
 }

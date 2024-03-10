@@ -1,4 +1,4 @@
 export const appConfig = {
-    scryptApiKey: process.env.NEXT_PUBLIC_SCRYPT_API_KEY,
+    scryptApiKey: 'testnet_6stw80zZvWXsY6kn1axCWsYus8TgtHGRjwOg2krE6QGAQ4r3',
 
 }

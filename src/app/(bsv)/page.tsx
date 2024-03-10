@@ -1,5 +1,5 @@
 "use client";
-import React, { use, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./App.css";
 import {
   TableContainer,
@@ -40,16 +40,7 @@ const contract_id = {
   /** The output index */
   outputIndex: 0,
 };
-import artifact from '../../artifacts/voting.json';
-import { appConfig } from '@/config/index';
-Voting.loadArtifact(artifact);
 
-
-Scrypt.init({
-  // https://docs.scrypt.io/advanced/how-to-integrate-scrypt-service#get-your-api-key
-  apiKey: appConfig.scryptApiKey,
-  network: bsv.Networks.testnet
-})
 
 
 function byteString2utf8(b: ByteString) {
@@ -195,14 +186,15 @@ function App() {
 
   const handleConnect = async (walletType: WalletType) => {
     const provider = new ScryptProvider();
+    let signer;
     if (walletType === WalletType.PANDA) {
-      const signer = new PandaSigner(provider);
+       signer = new PandaSigner(provider);
       signerRef.current = signer;
     } else if (walletType === WalletType.Sensilet) {
-      const signer = new SensiletSigner(provider);
+       signer = new SensiletSigner(provider);
       signerRef.current = signer;
     } else if (walletType === WalletType.TAAL) {
-      const signer = new TAALSigner(provider);
+       signer = new TAALSigner(provider);
       signerRef.current = signer;
     } else {
       alert("ERROR: unknow wallet type");
@@ -211,8 +203,7 @@ function App() {
 
     // auto connect
 
-
-    const signer = signerRef.current;
+     signer = signerRef.current;
 
     const { isAuthenticated, error } = await signer.requestAuth();
     if (!isAuthenticated) {
@@ -295,7 +286,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h2>What's your favorite phone?</h2>
+        <h2>What is your favorite phone?</h2>
       </header>
 
       <TableContainer

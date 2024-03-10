@@ -1,15 +1,12 @@
 import { Name, Voting, N } from '../src/contracts/voting'
 import { bsv, TestWallet, DefaultProvider, toByteString, FixedArray } from 'scrypt-ts'
 
-import * as dotenv from 'dotenv'
-
 // Load the .env file
-dotenv.config()
 
 // Read the private key from the .env file.
 // The default private key inside the .env file is meant to be used for the Bitcoin testnet.
 // See https://scrypt.io/docs/bitcoin-basics/bsv/#private-keys
-const privateKey = bsv.PrivateKey.fromWIF(process.env.PRIVATE_KEY || '')
+const privateKey = bsv.PrivateKey.fromWIF(process.env.NEXT_PUBLIC_PRIVATE_KEY || '')
 
 // Prepare signer.
 // See https://scrypt.io/docs/how-to-deploy-and-call-a-contract/#prepare-a-signer-and-provider

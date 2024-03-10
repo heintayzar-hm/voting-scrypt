@@ -27,7 +27,8 @@
       ]
     },
     "experimentalDecorators": true,
-    "target": "ESNext"
+    "target": "ESNext",
+    "forceConsistentCasingInFileNames": true
   },
   "include": [
     "next-env.d.ts",

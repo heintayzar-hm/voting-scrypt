@@ -8,7 +8,7 @@ dotenv.config({ path: dotenvConfigPath })
 // Read the private key from the .env file.
 // The default private key inside the .env file is meant to be used for the Bitcoin testnet.
 // See https://scrypt.io/docs/bitcoin-basics/bsv/#private-keys
-let privKey = process.env.PRIVATE_KEY || ''
+let privKey = process.env.NEXT_PUBLIC_PRIVATE_KEY || ''
 if (!privKey) {
     genPrivKey()
 } else {
