@@ -1,57 +1,32 @@
-import { assert, ByteString, hash256, method, prop, SmartContract, FixedArray, fill, toByteString } from 'scrypt-ts'
+import {
+    method,
+    prop,
+    SmartContract,
+    hash256,
+    assert,
+    SigHash
+} from 'scrypt-ts'
 
-export type Name = ByteString
-
-export type Candidate = {
-    name: Name
-    votesReceived: bigint
-}
-
-export const N = 2
-
-export type Candidates = FixedArray<Candidate, typeof N>
+import type {ByteString} from 'scrypt-ts';
 
 export class Voting extends SmartContract {
     @prop(true)
-    candidates: Candidates
+    count: bigint
 
-    constructor(names: FixedArray<Name, typeof N>) {
-        super(...arguments)
-        // initialize fixed array
-        this.candidates = fill({
-            name: toByteString(''),
-            votesReceived: 0n,
-        }, N)
-        // set names and set votes they received to 0
-        for (let i = 0; i < N; i++) {
-            this.candidates[i] = {
-                name: names[i],
-                votesReceived: 0n,
-            }
-        }
+    constructor(count: bigint) {
+        super(count)
+        this.count = count
     }
 
-    /**
-     * vote for a candidate
-     * @param name candidate's name
-     */
-    @method()
-    public vote(name: Name) {
-        this.increaseVotesReceived(name)
-        // output containing the latest state and the same balance
-        let outputs: ByteString = this.buildStateOutput(this.ctx.utxo.value)
-        if (this.changeAmount > 0n) {
-            outputs += this.buildChangeOutput()
-        }
-        assert(this.ctx.hashOutputs === hash256(outputs), 'hashOutputs mismatch')
-    }
+    @method(SigHash.SINGLE)
+    public increment() {
+        this.count++
 
-    @method()
-    increaseVotesReceived(name: Name): void {
-        for (let i = 0; i < N; i++) {
-            if (this.candidates[i].name === name) {
-                this.candidates[i].votesReceived++
-            }
-        }
+        // make sure balance in the contract does not change
+        const amount: bigint = this.ctx.utxo.value
+        // output containing the latest state
+        const output: ByteString = this.buildStateOutput(amount)
+        // verify current tx has this single output
+        assert(this.ctx.hashOutputs === hash256(output), 'hashOutputs mismatch')
     }
 }
